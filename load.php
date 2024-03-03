@@ -373,6 +373,10 @@ int main()
  return 0;
 }
 
+OUTPUT
+
+
+
 
 4. a. Write a C program to create a stack data structure using a linked list instead of an array 
 and implement push, pop and isEmpty operations accordingly
