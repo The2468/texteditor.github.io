@@ -87,6 +87,26 @@ int main() {
  return 0;
 }
 
+Output
+
+Enter the number of rows and columns of the first matrix: 2
+2
+Enter the number of rows and columns of the second matrix: 2
+2
+Enter elements of the first matrix:
+1
+2
+3
+4
+Enter elements of the second matrix:
+5
+6
+7
+8
+Resultant matrix after multiplication:
+19 22 
+43 50 
+
 
 3. a. A school wants to develop a student academic system to track student progress and 
 generate reports for teachers and parents. The system should store the following information 
@@ -175,6 +195,75 @@ int main()
  }
  return 0;
 }
+
+OUTPUT
+
+Enter Student ID: 01
+Enter Name: s1
+Enter marks for 5 subjects:
+Subject 1: 96
+Subject 2: 56
+Subject 3: 49
+Subject 4: 38.5
+Subject 5: 55.6
+Enter Student ID: 02
+Enter Name: s2
+Enter marks for 5 subjects:
+Subject 1: 56.5
+Subject 2: 96.8
+Subject 3: 78.6
+Subject 4: 55
+Subject 5: 85
+Enter Student ID: 03
+Enter Name: s3
+Enter marks for 5 subjects:
+Subject 1: 72.05
+Subject 2: 36.8
+Subject 3: 65
+Subject 4: 98.4
+Subject 5: 84.2
+Enter Student ID: 04
+Enter Name: s4
+Enter marks for 5 subjects:
+Subject 1: 58
+Subject 2: 68.3
+Subject 3: 78.6
+Subject 4: 85.9
+Subject 5: 22.5
+Enter Student ID: 05
+Enter Name: s5
+Enter marks for 5 subjects:
+Subject 1: 55
+Subject 2: 66
+Subject 3: 77
+Subject 4: 88
+Subject 5: 99
+
+Student Information:
+Student ID: 1
+Name: s1
+Average Marks: 59.02
+Grade: F
+
+Student ID: 2
+Name: s2
+Average Marks: 74.38
+Grade: C
+
+Student ID: 3
+Name: s3
+Average Marks: 71.29
+Grade: C
+
+Student ID: 4
+Name: s4
+Average Marks: 62.66
+Grade: D
+
+Student ID: 5
+Name: s5
+Average Marks: 77.00
+Grade: C
 
 
 
@@ -342,6 +431,19 @@ int main() {
  return 0;
 }
 
+OUTPUT
+/tmp/fF1ovaKyXO.o
+10 pushed to the stack
+20 pushed to the stack
+30 pushed to the stack
+30 popped from the stack
+20 popped from the stack
+10 popped from the stack
+Stack is empty. Cannot pop.
+-1 popped from the stack
+
+
+
 
 
  5. a. Write a C program to implement a queue data structure using a singly linked list. Your 
@@ -452,6 +554,13 @@ int main()
  printf("Is the queue empty? %s\n", isEmpty(queue) ? "Yes" : "No");
  return 0;
 }
+
+OUTPUT
+
+Queue elements: 10 20 30 
+Dequeued element: 10
+Queue elements: 20 30 
+Is the queue empty? No
 
 
 
@@ -584,3 +693,51 @@ int main() {
  }
  return 0;
 }
+
+OUTPUT
+
+/tmp/fF1ovaKyXO.o
+
+Menu:
+1. Insert at the beginning
+2. Insert at the end
+3. Delete by value
+4. Display
+5. Exit
+Enter your choice: 1
+Enter a value to insert: 5
+
+Menu:
+1. Insert at the beginning
+2. Insert at the end
+3. Delete by value
+4. Display
+5. Exit
+Enter your choice: 2
+Enter a value to insert: 8
+
+Menu:
+1. Insert at the beginning
+2. Insert at the end
+3. Delete by value
+4. Display
+5. Exit
+Enter your choice: 3
+Enter a value to delete: 8
+
+Menu:
+1. Insert at the beginning
+2. Insert at the end
+3. Delete by value
+4. Display
+5. Exit
+Enter your choice: 4
+Linked List: 5 -> NULL
+
+Menu:
+1. Insert at the beginning
+2. Insert at the end
+3. Delete by value
+4. Display
+5. Exit
+Enter your choice: 5
