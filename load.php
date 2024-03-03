@@ -375,6 +375,72 @@ int main()
 
 OUTPUT
 
+Enter Student ID: 1
+Enter Name: jkl
+Enter marks for 5 subjects:
+Subject 1: 90
+Subject 2: 89
+Subject 3: 78
+Subject 4: 98
+Subject 5: 76
+Enter Student ID: 2
+Enter Name: ghj
+Enter marks for 5 subjects:
+Subject 1: 45
+Subject 2: 56
+Subject 3: 67
+Subject 4: 89
+Subject 5: 67
+Enter Student ID: 3
+Enter Name: asd
+Enter marks for 5 subjects:
+Subject 1: 98
+Subject 2: 87
+Subject 3: 76
+Subject 4: 67
+Subject 5: 89
+Enter Student ID: 4
+Enter Name: xyz
+Enter marks for 5 subjects:
+Subject 1: 65
+Subject 2: 67
+Subject 3: 89
+Subject 4: 96
+Subject 5: 59
+Enter Student ID: 5
+Enter Name: 90
+Enter marks for 5 subjects:
+Subject 1: 78
+Subject 2: 95
+Subject 3: 56
+Subject 4: 86
+Subject 5: 68
+
+Student Information:
+Student ID: 1
+Name: jkl
+Average Marks: 86.20
+Grade: B
+
+Student ID: 2
+Name: ghj
+Average Marks: 64.80
+Grade: D
+
+Student ID: 3
+Name: asd
+Average Marks: 83.40
+Grade: B
+
+Student ID: 4
+Name: xyz
+Average Marks: 75.20
+Grade: C
+
+Student ID: 5
+Name: 90
+Average Marks: 76.60
+Grade: C
 
 
 
