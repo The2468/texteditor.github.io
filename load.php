@@ -36,6 +36,96 @@ The values stored in the array are: 
 3 
 4
 
+1. b. Evaluate the Number Plates of Vehicles.
+Write a C program to insert a vehicle registration number into an array of 1x10 array. The
+objective is to apply strict conventional rules of vehicle number plate registration as follows:
+The first two positions of array must be filled with state name, next two positions must be filled
+with district code, followed by next two positions with serial number of characters and
+penultimate with a number of a vehicle. KA-09-MN-3865. The program needs to verify the
+registration of a vehicle in the same format and print the registration of a vehicle and “Accept”
+else print “Reject” with a proper message.
+Rules to check.
+i. First two positions of an array must be a State Code.
+ii. Next two positions of an array must be District Code.
+iii. Next two Positions of an array must be a Serial Number of an RTO.
+iv. Penultimate r positions of an array must be a vehicle number.
+     
+Program
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+// Function to verify if a vehicle registration number is valid
+bool verifyRegistration(char registration[])
+{
+    // Check if the registration number has exactly 10 characters
+    if (strlen(registration) != 10)
+    {
+        return false;
+    }
+    // Check if the first two characters are alphabets (e.g., "KA" for Karnataka)
+    for (int i = 0; i < 2; i++)
+    {
+        if(!isalpha(registration[i]))
+        {
+            return false;
+        }
+    }
+
+    // Check if the next two characters are numbers (e.g., "09" for a specific district)
+    for (int i = 2; i < 4; i++)
+    {
+        if (!isdigit(registration[i]))
+        {
+            return false;
+        }
+    }
+
+    // Check if the next two characters are alphabets (e.g., "MN" for serial number)
+    for (int i = 4; i < 6; i++)
+    {
+        if (!isalpha(registration[i]))
+        {
+            return false;
+        }
+    }
+    // Check if the penultimate two characters are numbers (e.g., "3865" for vehicle number)
+    for (int i = 6; i < 10; i++)
+    {
+        if (!isdigit(registration[i]))
+        {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+int main()
+{
+    char registration[11];
+    printf("Enter a vehicle registration number: ");
+    scanf("%s", registration);
+    if (verifyRegistration(registration))
+    {
+        printf("Accept: Vehicle registration number is valid.\n");
+    }
+    else
+    {
+        printf("Reject: Vehicle registration number is invalid.\n");
+    }
+    
+    return0;
+
+}
+
+OUTPUT
+Enter a vehicle registration number: KA09MN3569
+Accept: Vehicle registration number is valid.
+
+Enter a vehicle registration number: zjvcndz
+Reject: Vehicle registration number is invalid.
+
+
 
 2. a. Write a C program that multiplies two matrices, ensuring that the number of columns in 
 the first matrix is equal to the number of rows in the second matrix. Display the resulting 
