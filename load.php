@@ -54,6 +54,7 @@ Program
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <ctype.h>
 // Function to verify if a vehicle registration number is valid
 bool verifyRegistration(char registration[])
 {
@@ -114,7 +115,7 @@ int main()
         printf("Reject: Vehicle registration number is invalid.\n");
     }
     
-    return0;
+    return 0;
 
 }
 
