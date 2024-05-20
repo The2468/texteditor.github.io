@@ -1,4 +1,4 @@
-/*
+
 1 a. Write a C program function to perform a linear search on a list of integers. The function
 should take two parameters - the array of integers and the target value to be searched. If the
 target value is present in the list, the function should return all the index of the occurrence of
@@ -965,4 +965,4 @@ Vertex  Distance from Source
 5         11
 6         9
 7         8
-8         14   */
+8         14   
