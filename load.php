@@ -284,7 +284,52 @@ int main() {
  
     return 0; 
 } 
- 
+
+CHATGPT
+
+#include <stdio.h>
+
+void merge(int arr[], int left, int mid, int right) {
+    int n1 = mid - left + 1, n2 = right - mid;
+    int L[n1], R[n2];
+
+    for (int i = 0; i < n1; i++) L[i] = arr[left + i];
+    for (int j = 0; j < n2; j++) R[j] = arr[mid + 1 + j];
+
+    int i = 0, j = 0, k = left;
+    while (i < n1 && j < n2) arr[k++] = (L[i] <= R[j]) ? L[i++] : R[j++];
+    while (i < n1) arr[k++] = L[i++];
+    while (j < n2) arr[k++] = R[j++];
+}
+
+void mergeSort(int arr[], int left, int right) {
+    if (left < right) {
+        int mid = left + (right - left) / 2;
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+        merge(arr, left, mid, right);
+    }
+}
+
+void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++) printf("%d ", arr[i]);
+    printf("\n");
+}
+
+int main() {
+    int n;
+    printf("Enter the number of elements: ");
+    scanf("%d", &n);
+    int arr[n];
+    printf("Enter the elements:\n");
+    for (int i = 0; i < n; i++) scanf("%d", &arr[i]);
+
+    mergeSort(arr, 0, n - 1);
+    printf("Sorted array: ");
+    printArray(arr, n);
+    return 0;
+}
+       
  
  
 Output: 
@@ -397,6 +442,61 @@ int main()
 
     return 0;
 }
+
+CHATGPT
+
+#include <stdio.h>
+#include <stdbool.h>
+
+#define MAX_VERTICES 100
+
+void initializeGraph(int vertices, int adjacencyMatrix[MAX_VERTICES][MAX_VERTICES]) {
+    for (int i = 0; i < vertices; ++i)
+        for (int j = 0; j < vertices; ++j)
+            adjacencyMatrix[i][j] = 0;
+}
+
+void addEdge(int adjacencyMatrix[MAX_VERTICES][MAX_VERTICES], int start, int end) {
+    adjacencyMatrix[start][end] = adjacencyMatrix[end][start] = 1;
+}
+
+void DFS(int vertices, int adjacencyMatrix[MAX_VERTICES][MAX_VERTICES], int vertex, bool visited[]) {
+    visited[vertex] = true;
+    for (int i = 0; i < vertices; ++i)
+        if (adjacencyMatrix[vertex][i] && !visited[i])
+            DFS(vertices, adjacencyMatrix, i, visited);
+}
+
+bool isConnected(int vertices, int adjacencyMatrix[MAX_VERTICES][MAX_VERTICES]) {
+    bool visited[MAX_VERTICES] = {false};
+    DFS(vertices, adjacencyMatrix, 0, visited);
+    for (int i = 0; i < vertices; ++i)
+        if (!visited[i]) return false;
+    return true;
+}
+
+int main() {
+    int vertices, edges, start, end;
+    int adjacencyMatrix[MAX_VERTICES][MAX_VERTICES];
+
+    printf("Enter the number of vertices: ");
+    scanf("%d", &vertices);
+
+    initializeGraph(vertices, adjacencyMatrix);
+
+    printf("Enter the number of edges: ");
+    scanf("%d", &edges);
+
+    printf("Enter the edges (start end):\n");
+    for (int i = 0; i < edges; ++i) {
+        scanf("%d %d", &start, &end);
+        addEdge(adjacencyMatrix, start, end);
+    }
+
+    printf("The graph is %sconnected.\n", isConnected(vertices, adjacencyMatrix) ? "" : "not ");
+    return 0;
+}
+       
 
 
 OUTPUT
@@ -518,6 +618,64 @@ int main() {
 
     return 0;
 }
+CHATGPT
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_VERTICES 100
+int queue[MAX_VERTICES], front = -1, rear = -1;
+
+void enqueue(int data) {
+    if (rear == MAX_VERTICES - 1) return;
+    if (front == -1) front = 0;
+    queue[++rear] = data;
+}
+
+int dequeue() {
+    return (front == -1 || front > rear) ? -1 : queue[front++];
+}
+
+int isEmpty() {
+    return front == -1 || front > rear;
+}
+
+void bfs(int graph[MAX_VERTICES][MAX_VERTICES], int numVertices, int startVertex, int visited[]) {
+    visited[startVertex] = 1;
+    enqueue(startVertex);
+
+    while (!isEmpty()) {
+        int currentVertex = dequeue();
+        printf("%d ", currentVertex);
+        for (int i = 0; i < numVertices; i++) {
+            if (graph[currentVertex][i] == 1 && !visited[i]) {
+                visited[i] = 1;
+                enqueue(i);
+            }
+        }
+    }
+}
+
+int main() {
+    int numVertices, graph[MAX_VERTICES][MAX_VERTICES], visited[MAX_VERTICES] = {0};
+
+    printf("Enter the number of vertices: ");
+    scanf("%d", &numVertices);
+
+    printf("Enter the adjacency matrix:\n");
+    for (int i = 0; i < numVertices; i++)
+        for (int j = 0; j < numVertices; j++)
+            scanf("%d", &graph[i][j]);
+
+    int startVertex;
+    printf("Enter the starting vertex for BFS: ");
+    scanf("%d", &startVertex);
+
+    printf("BFS Traversal: ");
+    bfs(graph, numVertices, startVertex, visited);
+
+    return 0;
+}
+       
 
 OUTPUT
 
@@ -610,7 +768,39 @@ int main() {
 
     return 0;
 }
+CHATGPT
+#include <stdio.h>
 
+void transitiveClosure(int graph[][100], int n) {
+    for (int k = 0; k < n; k++)
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                if (graph[i][k] && graph[k][j])
+                    graph[i][j] = 1;
+
+    printf("Transitive closure of the given graph is:\n");
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++)
+            printf("%d ", graph[i][j]);
+        printf("\n");
+    }
+}
+
+int main() {
+    int graph[100][100], n;
+
+    printf("Enter the number of vertices: ");
+    scanf("%d", &n);
+
+    printf("Enter the adjacency matrix:\n");
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            scanf("%d", &graph[i][j]);
+
+    transitiveClosure(graph, n);
+    return 0;
+}
+       
 
 OUTPUT
 
@@ -695,6 +885,43 @@ int main() {
     floydWarshall(graph);
     return 0;
 }
+CHATGPT
+#include <stdio.h>
+
+#define INF 99999
+#define V 4
+
+void floydWarshall(int graph[][V]) {
+    int dist[V][V];
+    for (int i = 0; i < V; i++)
+        for (int j = 0; j < V; j++)
+            dist[i][j] = graph[i][j];
+
+    for (int k = 0; k < V; k++)
+        for (int i = 0; i < V; i++)
+            for (int j = 0; j < V; j++)
+                if (dist[i][k] + dist[k][j] < dist[i][j])
+                    dist[i][j] = dist[i][k] + dist[k][j];
+
+    printf("Shortest distances between every pair of vertices:\n");
+    for (int i = 0; i < V; i++) {
+        for (int j = 0; j < V; j++) {
+            if (dist[i][j] == INF) printf("%7s", "INF");
+            else printf("%7d", dist[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int graph[V][V] = {{0, 3, INF, 7},
+                       {8, 0, 2, INF},
+                       {5, INF, 0, 1},
+                       {2, INF, INF, 0}};
+    floydWarshall(graph);
+    return 0;
+}
+       
 
 
 OUTPUT
@@ -753,7 +980,37 @@ int main()
     printf("Maximum value that can be obtained is %d\n", knapsack(W, wt, val, n));
     return 0;
 }
+CHATGPT
+#include <stdio.h>
 
+int max(int a, int b) {
+    return (a > b) ? a : b;
+}
+
+int knapsack(int W, int wt[], int val[], int n) {
+    int K[n + 1][W + 1];
+    for (int i = 0; i <= n; i++) {
+        for (int w = 0; w <= W; w++) {
+            if (i == 0 || w == 0)
+                K[i][w] = 0;
+            else if (wt[i - 1] <= w)
+                K[i][w] = max(val[i - 1] + K[i - 1][w - wt[i - 1]], K[i - 1][w]);
+            else
+                K[i][w] = K[i - 1][w];
+        }
+    }
+    return K[n][W];
+}
+
+int main() {
+    int val[] = {12, 10, 20, 15};
+    int wt[] = {2, 1, 3, 2};
+    int W = 5;
+    int n = sizeof(val) / sizeof(val[0]);
+    printf("Maximum value: %d\n", knapsack(W, wt, val, n));
+    return 0;
+}
+               
 
 
 OUTPUT
@@ -951,6 +1208,53 @@ int main()
     dijkstra(graph, 0);
     return 0;
 }
+CHATGPT
+#include <stdio.h>
+#include <limits.h>
+
+#define V 9
+
+int minDistance(int dist[], int sptSet[]) {
+    int min = INT_MAX, min_index;
+    for (int v = 0; v < V; v++)
+        if (!sptSet[v] && dist[v] <= min)
+            min = dist[v], min_index = v;
+    return min_index;
+}
+
+void printSolution(int dist[]) {
+    printf("Vertex \t Distance from Source\n");
+    for (int i = 0; i < V; i++)
+        printf("%d \t %d\n", i, dist[i]);
+}
+
+void dijkstra(int graph[V][V], int src) {
+    int dist[V], sptSet[V] = {0};
+    for (int i = 0; i < V; i++)
+        dist[i] = INT_MAX;
+    dist[src] = 0;
+
+    for (int count = 0; count < V - 1; count++) {
+        int u = minDistance(dist, sptSet);
+        sptSet[u] = 1;
+        for (int v = 0; v < V; v++)
+            if (!sptSet[v] && graph[u][v] && dist[u] != INT_MAX && dist[u] + graph[u][v] < dist[v])
+                dist[v] = dist[u] + graph[u][v];
+    }
+    printSolution(dist);
+}
+
+int main() {
+    int graph[V][V] = {{0, 4, 0, 0, 0, 0, 0, 8, 0}, {4, 0, 8, 0, 0, 0, 0, 11, 0}, 
+                       {0, 8, 0, 7, 0, 4, 0, 0, 2}, {0, 0, 7, 0, 9, 14, 0, 0, 0}, 
+                       {0, 0, 0, 9, 0, 10, 0, 0, 0}, {0, 0, 4, 14, 10, 0, 2, 0, 0}, 
+                       {0, 0, 0, 0, 0, 2, 0, 1, 6}, {8, 11, 0, 0, 0, 0, 1, 0, 7}, 
+                       {0, 0, 2, 0, 0, 0, 6, 7, 0}};
+    
+    dijkstra(graph, 0);
+    return 0;
+}
+                         
 
 OUTPUT
 
