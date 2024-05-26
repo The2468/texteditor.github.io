@@ -215,3 +215,55 @@ HAVING COUNT(*) > 2;
 select now(); 
 select date(now()); 
 select day(now());
+
+
+Exp 6:  Write and execute database trigger. Consider row level and statement level triggers. 
+use dsu; 
+CREATE TABLE test1(a1 INT); 
+CREATE TABLE test2(a2 INT); 
+ 
+delimiter | 
+ 
+CREATE TRIGGER testref1 BEFORE INSERT ON test1 
+  FOR EACH ROW 
+  BEGIN 
+    INSERT INTO test2 SET a2 = NEW.a1; 
+  END; 
+| 
+ 
+delimiter ; 
+  
+INSERT INTO test1 values (10000);
+
+Exp 7: Write and execute program to perform operations on MongoDb Database. 
+ 
+a) Show databases
+[26-05-2024 11:31 PM] Nooruddin Kazi DSU: b) Use databasename 
+c) insertone() 
+d) insertmany() 
+e) Findone() 
+f) Findmany()
+Exp 8: Write and execute program to perform CRUD operations. 
+ 
+Create record, read record, update record and delete the record 
+ 
+a) Create operation 
+insertOne({ 
+            fName: 'RAM', 
+            lName: 'AYODHYA', 
+            email: 'ram@gmail.com', 
+            hobbies: ['Photography', 'Travelling'] 
+        }); 
+ 
+insertMany([{ 
+            fName: 'Adi', 
+            lName: 'Yogi', 
+            email: 'yogi@gmail.com', 
+            hobbies: ['Drawing', 'Music'] 
+        }, { 
+            fName: 'Modi', 
+            lName: 'PM', 
+            email: 'modi@gmail.com', 
+            hobbies: ['Drawing', 'Classical Dance'] }]);
+b) Read opearation 
+ collection.find()
