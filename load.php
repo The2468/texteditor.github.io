@@ -105,3 +105,113 @@ SELECT name,continent,population FROM country x
  SELECT population FROM country y 
  WHERE x.continent=y.continent 
  AND y.population>0);
+
+
+
+
+
+3)Use of Join, Write Sql code to join tables and retrieve the combined information from tables. 
+ 
+ a) -- Using LEFT JOIN, ON, what is the capital of Spain (ESP)? (Madrid) 
+ 
+SELECT city.name  
+FROM city, country 
+WHERE country.code=city.countryCode 
+AND country.capital=city.ID 
+AND country.code='ITA'; 
+ 
+SELECT city.name, country.name 
+FROM country 
+LEFT JOIN city 
+ON country.capital=city.ID 
+AND country.code=city.countryCode 
+WHERE country.code='ESP'; 
+ 
+b) -- Using LEFT JOIN, ON, list all the languages spoken in the 'Southeast Asia' region (65) 
+    
+SELECT LANGUAGE,region 
+FROM countrylanguage 
+LEFT JOIN country 
+ON countrylanguage.CountryCode=country.code 
+WHERE country.region='Southeast Asia';
+
+
+4)Execute the Aggregate functions count, sum, avg, min, max on a suitable database. Make 
+use of built in functions according to the need of the database chosen . 
+ 
+a) -- Using count, get the number of cities in the USA (274) 
+ 
+SELECT COUNT(*) FROM city, country 
+WHERE country.code=city.countryCode 
+AND country.name='United States'; 
+ 
+
+b) Get count of coutrycode where countrycode > 100 
+ 
+select count(countrycode),countrycode from city 
+group by countrycode 
+having count(countrycode)>100; 
+ 
+ 
+ 
+c) Find total districts in each country. 
+ 
+SELECT countrycode, country,COUNT(*) AS District 
+FROM city 
+GROUP BY countrycode; 
+ 
+ 
+5) Retrieve the data from the database based on time and date functions like now(), date(), 
+day(), time() etc., Use of group by and having clauses use Sakila data base. 
+ 
+a) Explore NOW,CURRDATE,CURRTIME  
+SELECT NOW(); 
+SELECT CURDATE(); 
+SELECT CURTIME(); 
+
+ 
+b) Actor with most films (ignoring ties)  from sakila database  
+SELECT first_name, last_name, count(*) films 
+FROM actor AS a 
+JOIN film_actor AS fa USING (actor_id) 
+GROUP BY actor_id, first_name, last_name 
+ORDER BY films DESC 
+LIMIT 1; 
+ 
+c) Cumulative revenue of all stores 
+SELECT payment_date, amount, sum(amount) OVER (ORDER BY payment_date) 
+FROM (SELECT CAST(payment_date AS DATE) AS payment_date, SUM(amount)  
+AS amount FROM payment 
+GROUP BY CAST(payment_date AS DATE)) p 
+ORDER BY payment_date;
+
+
+
+extra)
+1)Retrieve all events happening today. 
+SELECT * FROM events WHERE event_date = CURDATE(); 
+ 
+2. Retrieve events happening this month. 
+SELECT * FROM events 
+WHERE MONTH(event_date) = MONTH(CURDATE()) 
+AND YEAR(event_date) = YEAR(CURDATE()); 
+ 
+3. Count the number of events happening each day in the next month. 
+SELECT event_date, COUNT(*) AS event_count FROM events 
+WHERE event_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 1 MONTH) 
+GROUP BY event_date; 
+ 
+4. List events happening on weekends. 
+SELECT * FROM events 
+WHERE DAYOFWEEK(event_date) IN (1, 7); 
+ 
+5. Retrieve the total number of events for each month where the total number of events is greater than 2. 
+SELECT MONTH(event_date) AS month, COUNT(*) AS event_count 
+FROM events 
+GROUP BY MONTH(event_date) 
+HAVING COUNT(*) > 2; 
+ 
+6. Print current date, time, day. 
+select now(); 
+select date(now()); 
+select day(now());
