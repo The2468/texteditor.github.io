@@ -1,579 +1,399 @@
+exp1
 
-1)A. To write a java program that uses non-recursive procedure to print the nth value in the 
-Fibonacci sequence. 
-
-import java.util.*; 
-public class Fibonacci 
-{ 
-public static void main(String args[]) 
-{ 
-Scanner in = new Scanner(System.in); 
-int n, a, b, i, sum; 
-sum=0; 
-a=0; 
-b=1; 
-System.out.println("Enter number of terms"); 
-n=in.nextInt(); 
-System.out.println("The Fibonacci sequence is "); 
-if(n==1) 
-System.out.print(a); 
-else if(n==2) 
-{ 
-System.out.print(a+" "+b); 
-sum=b; 
-} 
-else 
-{ 
-System.out.print(a+" "+b+" "); 
-for(i=3;i<=n;i++) 
-{ 
-sum=a+b; 
-System.out.print(sum+" "); 
-a=b; 
-b=sum; 
-} 
-} 
-System.out.println("\nThe nth value in the Fibonacci sequence is "+sum); 
-}  
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+void main(int argc,char *args[])
+{
+int pid;
+ pid=fork();
+if(pid<0)
+{
+printf("fork failed");
+exit(1);
+}
+else if(pid==0)
+{
+execlp("date","ls",NULL );
+exit(0);
+}
+else
+{
+printf("\n Process id is -%d\n",getpid());
+wait(NULL);
+exit(0);
+}
 }
 
-1)B.Develop a java program for pay roll system for employee class with emp_name, emp_id, 
-address and salary. Calculate 97% of basic pay as DA, 10 % of basic pay as HRA, 12% 
-of basic pay as PF. Generate pay slip for the employee with their gross and net salary.
-
-import java.util.*; 
-public class employee 
-{ 
-String emp_name,address; 
-int emp_id; 
-double sal, da, hra, pf, gross,net; 
-void input() 
-{ 
-Scanner in = new Scanner(System.in); 
-System.out.println("Enter employee name "); 
-emp_name=in.next(); 
-System.out.println("Enter employee id "); 
-emp_id=in.nextInt(); 
-System.out.println("Enter employee address "); 
-address=in.next(); 
-System.out.println("Enter the basic salary "); 
-sal=in.nextDouble(); 
-} 
-void calculate() 
-{ 
-da=sal*97/100; 
-hra=sal*10/100; 
-pf=sal*12/100; 
-gross=sal+da+hra+pf; 
-net=gross-pf; 
-} 
-void display() 
-{ 
-System.out.println("The gross salary is "+gross); 
-System.out.println("The net salary is "+net); 
-}     
-public static void main(String args[]) 
-{ 
-employee ob = new employee(); 
-ob.input(); 
-ob.calculate(); 
-ob.display(); 
-} 
-} 
 
 
-2A. Write a JAVA program to accept an integer array and print the repeating 
-elements. 
 
-import java.util.*; 
-public class Array 
-{ 
-void repeat(int a[], int n) 
-{ 
-int i,j,count; 
-System.out.println("These elements are repeated along with its frequency-"); 
-for(i=0;i<n;i++) 
-{ 
-count=1; 
-for(j=i+1;j<n;j++) 
-{ 
-if(a[j]==a[i]) 
-count++; 
-else 
-break; 
-} 
-i=j-1; 
-if(count>1) 
-System.out.println(a[i] + " --> " + count); 
-} 
-} 
-public static void main(String args[])  
-{ 
-int size,i; 
-Scanner in = new Scanner(System.in); 
-System.out.println("Enter the array size"); 
-size=in.nextInt(); 
-int arr[] = new int[size]; 
-System.out.println("Enter the array elements"); 
-for(i=0;i<size;i++) 
-arr[i]=in.nextInt(); 
-Arrays.sort(arr); 
-Array ob = new Array(); 
-ob.repeat(arr,size); 
-} 
-}       
+exp2
 
-2B. Java program to accept 2 integer arrays as parameters and print common elements 
-across both the arrays. 
-
-
-import java.util.*; 
-public class Array2 
-{ 
-void common(int a[], int b[]) 
-{ 
-int i,j; 
-System.out.println("The common elements are "); 
-for(i=0;i<a.length;i++) 
-{ 
-for(j=0;j<b.length;j++) 
-{ 
-if(a[i]==b[j]) 
-System.out.println(a[i]); 
-} 
-} 
-} 
-public static void main(String args[]) 
-{ 
-int a1[] = {100,200,400,300}; 
-int b1[] = {100,400,250}; 
-Array2 ob = new Array2(); 
-ob.common(a1,b1); 
-} 
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+void main()
+{
+int pid;
+pid=fork();
+if(!pid)
+{
+printf("Child process...");
+printf("\n\nChild PID : %d",getpid());
+printf("\nParent PID : %d",getppid());
+printf("\n\nFinished with child\n");
+}
+ else
+{
+wait(NULL);
+printf("\nParent process");
+printf("\nPARENT PID : %d",getpid());
+printf("\nChild PID : %d",pid);
+}
 }
 
-3A. Write a program to create an abstract class named shape that contains two integers 
-and an empty method named print Area(). Provide three classes named Rectangle, 
-Triangle and Circle such that each one of the classes extends the class shape. Each one of 
-the class contains only the method print Area() that print the area of the given shape. 
-             
-import java.util.*; 
-abstract class Shape  
-{ 
-abstract void area(double x, double y); 
-abstract void area(double z); 
-} 
-class Rectangle extends Shape  
-{ 
-void area(double x, double y)  
-{ 
-System.out.println("Area of rectangle is :" + (x * y)); 
-} 
-@Override void area(double z) 
-{ 
-} 
-} 
-class Circle extends Shape  
-{ 
-@Override void area(double x, double y) 
-{ 
-} 
-void area(double z)  
-{ 
-System.out.println("Area of circle is :" + (Math.PI * z * z)); 
-} 
-} 
-class Triangle extends Shape  
-{ 
-void area(double x, double y)  
-{ 
-System.out.println("Area of triangle is :" + (0.5 * x * y)); 
-} 
-@Override void area(double z) 
-{ 
-} 
-} 
-public class AbstractDemo  
-{ 
-public static void main(String[] args)  
-{ 
-Rectangle r = new Rectangle(); 
-r.area(5, 10); 
-Circle c = new Circle(); 
-c.area(5); 
-Triangle t = new Triangle(); 
-t.area(5, 10); 
-} 
-} 
+exp3
 
-3B. Write a Java program to create an employee class by inheriting Person class. 
-    
-class Person  
-{ 
-String name; 
-int age; 
-Person(int age, String name)  
-{ 
-this.name = name; 
-this.age = age; 
-} 
-} 
-class Employee extends Person  
-{ 
-int emp_id; 
-int emp_salary; 
-Employee(int id, String name, int age, int salary)  
-{ 
-super(age,name); 
-emp_id = id; 
-emp_salary = salary; 
-} 
-void printEmployeeDetails()  
-{ 
-System.out.println("Employee ID : "+emp_id); 
-System.out.println("Employee Name : "+name); 
-System.out.println("Employee Age : "+age); 
-System.out.println("Employee Salary : "+emp_salary); 
-} 
-} 
-public class Main  
-{ 
-public static void main(String[] args)  
-{ 
-Employee emp = new Employee(05,"Suvika",30,50000); 
-emp.printEmployeeDetails(); 
-} 
-} 
-
-4A. Write a Java program to implement multilevel inheritance 
-    
-class Person 
-{ 
-Person() 
-{ 
-System.out.println("Person constructor"); 
-} 
-void nationality() 
-{ 
-System.out.println("Indian"); 
-} 
-void place()  
-{ 
-System.out.println("Mumbai"); 
-} 
-} 
-class Emp extends Person 
-{ 
-Emp() 
-{ 
-System.out.println("Emp constructor"); 
-} 
-void organization() 
-{ 
-System.out.println("IBM"); 
-} 
-void place() 
-{ 
-System.out.println("New York"); 
-} 
-} 
-class Manager extends Emp 
-{ 
-Manager() 
-{ 
-System.out.println("Manager constructor"); 
-} 
-void subordinates() 
-{ 
-System.out.println(12); 
-} 
-void place() 
-{ 
-System.out.println("London"); 
-} 
-} 
-class Check 
-{ 
-public static void main(String args[]) 
-{ 
-Manager m=new Manager(); 
-m.nationality(); 
-m.organization(); 
-m.subordinates(); 
-m.place(); 
-} 
-} 
-
-4B. Create a java program that calculates the area and volume of rectangle using an 
-interface class.  
-    
-interface getdata 
-{ 
-public void input(); 
-} 
-interface calculate 
-{ 
-public void area(); 
-public void volume(); 
-} 
-class rectangle implements getdata, calculate 
-{ 
-int l,b,h,a,v; 
-public void input() 
-{ 
-l=10; 
-b=20; 
-h=15; 
-} 
-public void area() 
-{ 
-a=l*b; 
-System.out.println("Area "+a); 
-} 
-public void volume() 
-{ 
-v=l*b*h; 
-System.out.println("Volume "+v); 
-} 
-} 
-public class p4b 
-{ 
-public static void main(String args[]) 
-{ 
-rectangle r = new rectangle(); 
-r.input(); 
-r.area(); 
-r.volume(); 
-} 
-} 
-
-5. Write a program to generate the following abnormal conditions in main(): and 
-Enable a catch block for each and see whether you are able to catch the exceptions. Print 
-the stack trace and verify. 
-    
-**NullPointerException** 
-import java.util.*; 
-class P5a 
-{ 
-public static void main (String[] args) 
-{ 
-String ptr = null; 
-try 
-{ 
-if (ptr.equals("java")) 
-System.out.print("Same"); 
-else 
-System.out.print("Not Same"); 
-} 
-catch(NullPointerException e) 
-{ 
-System.out.print("NullPointerException Caught"); 
-e.printStackTrace(); 
-} 
-} 
-} 
-
- 
-**OutOfMemoryErrorException** 
- 
-import java.util.*; 
-class P5b 
-{ 
-    public void CreateArray(int size) 
-    { 
-     try 
-     { 
-      int a[]=new int[size]; 
-     } 
-     catch(Exception e) 
-     { 
-      System.out.print("OutOfMemoryErrorException Caught"); 
-      e.printStackTrace(); 
-     } 
-    } 
-    public static void main (String[] args) 
-    { 
-     P5b ob=new P5b(); 
-     ob.CreateArray(1000*1000); 
-    } 
-}
- 
- 
-**NumberFormatException** 
-import java.io.*; 
-class P5c1 
-{ 
-    public static void main (String[] args) 
-    { 
-     try 
-     { 
-      String s="1 2 3"; 
-      System.out.println(Integer.parseInt(s)); 
-     } 
-     catch(NumberFormatException e) 
-     { 
-      System.out.print("NumberFormatException Caught"); 
-      System.out.println(e.getMessage()); 
-      e.printStackTrace(); 
-     } 
-     } 
-} 
-**NumberFormatException (Date)** 
-import java.util.*; 
-class P5c2 
-{ 
-    public static void main (String[] args) 
-    { 
-     try 
-     { 
-      Date day = new Date(); 
-      String s=day.toString(); 
-      System.out.println(Integer.parseInt(s)); 
-     } 
-     catch(NumberFormatException e) 
-     { 
-      System.out.print("NumberFormatException Caught"); 
-      System.out.println(e.getMessage()); 
-      e.printStackTrace(); 
-     } 
-    } 
-} 
-
-import java.util.*; 
-class P5d1 
-{ 
-    public static void main (String[] args) 
-    { 
-     try 
-     { 
-      Object o = new Object(); 
-      String s = (String)o; 
-      System.out.println(s); 
-     } 
-     catch(ClassCastException e) 
-     { 
-    System.out.print("ClassCastException Caught"); 
-    System.out.println(e.getMessage()); 
-    e.printStackTrace(); 
-     } 
-    } 
+#include<stdio.h>
+#include<unistd.h>
+#include<sys/types.h>
+#include<string.h>
+#include <fcntl.h>
+void main()
+{
+char buff;
+int fd,fd1;
+fd=open("one.txt",O_RDONLY);
+fd1=open("two.txt",O_WRONLY|O_CREAT);
+while(read(fd,&buff,1))
+write(fd1,&buff,1);
+printf("The copy of a file is successed");
+close(fd);
+close(fd1);
 }
 
-import java.util.*; 
-class P5d2 
-{ 
-    public static void main (String[] args) 
-    { 
-     try 
-     { 
-      String s = "Suvika"; 
-      Object o = (Object)s; 
-      System.out.println(o); 
-     } 
-     catch(ClassCastException e) 
-     {    
- System.out.print("ClassCastException Caught"); 
-    System.out.println(e.getMessage()); 
-    e.printStackTrace(); 
-    } 
-    } 
+
+exp4
+
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+#define NUM_THREADS 5
+void *PrintHello(void *threadid)
+{
+ long tid;
+ tid = (long)threadid;
+ printf("Hello World! It's me, thread #%ld!\n", tid);
+ pthread_exit(NULL);
+}
+int main(int argc, char *argv[])
+{
+ pthread_t threads[NUM_THREADS];
+ int rc;
+ long t;
+ for(t=0;t<NUM_THREADS;t++){
+ printf("In main: creating thread %ld\n", t);
+ rc = pthread_create(&threads[t], NULL, PrintHello, (void *)t);
+ if (rc){
+ printf("ERROR; return code from pthread_create() is %d\n", rc);
+ exit(-1);
+ }
+ }
+ /* Last thing that main() should do */
+ pthread_exit(NULL);
+return 0:
 }
 
-6A. Write a JAVA program that creates threads by extending Thread class. First thread 
-display “Good Morning “every 1 sec, the second thread displays “Hello “every 2 seconds 
-and the third display “Welcome” every 3 seconds. 
-    
-import java.io.*; 
-class A extends Thread 
-{ 
-synchronized public void run() 
-{ 
-try 
-{ 
-while(true) 
-{ 
-sleep(1000); 
-System.out.println("good morning"); 
-} 
-} 
-catch(Exception e) 
-{ } 
-} 
-} 
-class B extends Thread 
-{ 
-synchronized public void run() 
-{ 
-try 
-{ 
-while(true) 
-{ 
-sleep(2000); 
-System.out.println("hello"); 
-} 
-} 
-catch(Exception e) 
-{ } 
-} 
-} 
 
-class C extends Thread 
-{ 
-synchronized public void run() 
-{ 
-try 
-{ 
-while(true) 
-{ 
-sleep(3000); 
-System.out.println("welcome"); 
-} 
-} 
-catch(Exception e) 
-{ } 
-} 
-} 
-class Threadmsgs 
-{ 
-public static void main(String args[]) 
-{ 
-A t1=new A(); 
-B t2=new B(); 
-C t3=new C(); 
-t1.start(); 
-t2.start(); 
-t3.start(); 
-} 
-} 
+exp5
+FCFS
 
-6B. Write a program illustrating isAlive and join ()  
- 
-public class AliveJoin extends Thread  
-{  
- public void run()  
-  {  
-    System.out.println("university ");  
-    try  
-    {  
-      Thread.sleep(300);  
-    }  
-    catch (InterruptedException ie)  
-    { }  
-    System.out.println("dayananda sagar");  
-  }  
-  public static void main(String[] args)  
-  {   
-    AliveJoin c1 = new AliveJoin();  
-    AliveJoin c2 = new AliveJoin();  
-    c1.start();  
-    c2.start(); 
-    System.out.println(c1.isAlive()); 
-    System.out.println(c2.isAlive()); 
-    try  
-    {  
-      c1.join(); // Waiting for c1 to finish  
-    }  
-    catch (InterruptedException ie)  
-    { }  
-  }  
+#include<stdio.h>
+int main()
+{
+ int n,bt[20],wt[20],tat[20],avwt=0,avtat=0,i,j;
+ printf("Enter total number of processes(maximum 20):");
+ scanf("%d",&n);
+ printf("\nEnter Process Burst Time\n");
+ for(i=0;i<n;i++)
+ {
+ printf("P[%d]:",i+1);
+ scanf("%d",&bt[i]);
+ }
+ wt[0]=0; //waiting time for first process is 0
+ //calculating waiting time
+ for(i=1;i<n;i++)
+ {
+ wt[i]=0;
+ for(j=0;j<i;j++)
+ wt[i]= wt[i]+bt[j];
+ }
+ printf("\nProcess\t\tBurst Time\tWaiting Time\tTurnaround Time");
+ //calculating turnaround time
+ for(i=0;i<n;i++)
+ {
+ tat[i]=bt[i]+wt[i];
+ avwt+=wt[i];
+ avtat+=tat[i];
+ printf("\nP[%d]\t\t%d\t\t%d\t\t%d",i+1,bt[i],wt[i],tat[i]);
+ }
+ avwt/=n;
+ avtat/=n;
+ printf("\n\nAverage Waiting Time:%d",avwt);
+ printf("\nAverage Turnaround Time:%d",avtat);
+ return 0;
 }
+
+
+
+SJF
+
+
+#include<stdio.h>
+void main()
+{
+ int bt[20],p[20],wt[20],tat[20],i,j,n,total=0, total1=0,pos,temp;
+ float avg_wt,avg_tat;
+ printf("Enter number of process:");
+ scanf("%d",&n);
+ printf("\nEnter Burst Time:\n");
+ for(i=0;i<n;i++)
+ {
+ printf("p%d:",i+1);
+ scanf("%d",&bt[i]);
+ p[i]=i+1; //contains process number
+ }
+ //sorting burst time in ascending order using selection sort
+ for(i=0;i<n;i++)
+ {
+ pos=i;
+ for(j=i+1;j<n;j++)
+ {
+ if(bt[j]<bt[pos])
+ pos=j;
+ }
+ temp=bt[i];
+ bt[i]=bt[pos];
+ bt[pos]=temp;
+ temp=p[i];
+ p[i]=p[pos];
+ p[pos]=temp;
+ }
+ wt[0]=0; //waiting time for first process will be zero
+ //calculate waiting time
+ for(i=1;i<n;i++)
+ {
+ wt[i]=0;
+ for(j=0;j<i;j++)
+ wt[i]+=bt[j];
+ total+=wt[i];
+ }
+
+ printf("\nProcess\t Burst Time \tWaiting Time\tTurnaround Time");
+ for(i=0;i<n;i++)
+ {
+ tat[i]=bt[i]+wt[i]; //calculate turnaround time
+ total+=tat[i];
+ printf("\np%d\t\t %d\t\t %d\t\t\t%d",p[i],bt[i],wt[i],tat[i]);
+ }
+avg_wt=(float)total/n; //average waiting time
+ avg_tat=(float)total1/n; //average turnaround time
+ printf("\n\nAverage Waiting Time=%f",avg_wt);
+ printf("\nAverage Turnaround Time=%f\n",avg_tat);
+}
+
+
+priority 
+
+#include<stdio.h>
+int main()
+{
+ int bt[20],p[20],wt[20],tat[20],pr[20],i,j,n,total=0, total1=0,pos,temp,avg_wt,avg_tat;
+ printf("Enter Total Number of Process:");
+ scanf("%d",&n);
+ printf("\nEnter Burst Time and Priority\n");
+ for(i=0;i<n;i++)
+ {
+ printf("\nP[%d]\n",i+1);
+ printf("Burst Time:");
+ scanf("%d",&bt[i]);
+ printf("Priority:");
+ scanf("%d",&pr[i]);
+ p[i]=i+1; //contains process number
+ }
+ //sorting burst time, priority and process number in ascending order using selection sort
+ for(i=0;i<n;i++)
+ {
+ pos=i;
+ for(j=i+1;j<n;j++)
+ {
+ if(pr[j]<pr[pos])
+ pos=j;
+ }
+ temp=pr[i];
+ pr[i]=pr[pos];
+ pr[pos]=temp;
+ temp=bt[i];
+ bt[i]=bt[pos];
+ bt[pos]=temp;
+ temp=p[i];
+ p[i]=p[pos];
+ p[pos]=temp;
+ }
+ wt[0]=0; //waiting time for first process is zero
+ //calculate waiting time
+ for(i=1;i<n;i++)
+ {
+ wt[i]=0;
+ for(j=0;j<i;j++)
+ wt[i]+=bt[j];
+ total+=wt[i];
+ }
+
+ printf("\nProcess\t Burst Time \tWaiting Time\tTurnaround Time");
+ for(i=0;i<n;i++)
+ {
+ tat[i]=bt[i]+wt[i]; //calculate turnaround time
+ total1+=tat[i];
+ printf("\nP[%d]\t\t %d\t\t %d\t\t\t%d",p[i],bt[i],wt[i],tat[i]);
+ }
+ avg_wt=total/n; //average waiting time
+ avg_tat=total1/n; //average turnaround time
+ printf("\n\nAverage Waiting Time=%d",avg_wt);
+ printf("\nAverage Turnaround Time=%d\n",avg_tat);
+ return 0;
+}
+
+roundrobin
+
+#include<stdio.h>
+int main()
+{
+int i,tbt=0,nop,ts=0,flag[20],rem[20];
+int from,wt[20],tt[20],b[20],twt=0,ttt=0;
+int dur;
+float awt,att;
+printf("Enter no.of Processes:");
+scanf("%d",&nop);
+printf("Enter the time slice:");
+scanf("%d",&ts);
+printf("Enter the Burst times..\n");
+for(i=0;i<nop;i++)
+{
+ wt[i]=tt[i]=0;
+ printf("P%d\t:",i+1);
+ scanf("%d",&b[i]); // Reading Burst Time
+ rem[i]=b[i]; // Store the Burst Time in rem array
+ tbt+=b[i]; // Total Burst Time
+ flag[i]=0; // used to check whether the process has remaining burst time or not
+}
+from=0;
+i=0;
+printf("\n\tGantt Chart");
+printf("\nProcessID \t From Time\tTo Time\n");
+while(from<tbt)
+{
+ if(!flag[i]) //true only when process has burst time
+ {
+ if(rem[i]<=ts) //burst time should be equal or less than time slice
+ {
+ dur=rem[i];
+ flag[i]=1; // make the value false
+ tt[i]=dur+from;
+ wt[i]=tt[i]-b[i]; // subtract
+ }
+ else
+ dur=ts;
+ printf("%7d%15d%15d\n",i+1,from,from+dur);
+ rem[i]= rem[i]-dur;
+ from = from+dur;
+}
+i=(i+1)%nop;
+}
+for(i=0;i<nop;i++)
+{
+twt+=wt[i];
+ttt+=tt[i];
+}
+printf("\n\nProcess ID\tWaiting Time\tTurn Around Time");
+for(i=0;i<nop;i++)
+{
+printf("\n\t%d\t\t%d\t\t%d",i+1,wt[i],tt[i]);
+}
+awt=(float)twt/(float)nop;
+att=(float)ttt/(float)nop;
+printf("\nTotal Waiting Time:%d",twt);
+printf("\nTotal TurnAround Time:%d",ttt);
+printf("\nAverage Waiting Time:%.2f",awt);
+printf("\nAverage Turn Around Time:%.2f\n",att);
+return 0;
+}
+
+
+semaphore
+
+#include<stdio.h>
+#include<stdlib.h>
+int mutex=1,full=0,empty=3,x=0;
+void producer();
+void consumer();
+int wait(int);
+int signal(int);
+int main()
+{
+int n;
+do
+{
+ printf("\n1.producer\n2.consumer\n3.exit\n");
+ printf("\nenter ur choice");
+ scanf("%d",&n);
+ switch(n)
+ {
+ case 1:
+ if((mutex==1)&&(empty!=0))
+ producer();
+ else
+ printf("buffer is full\n");
+ break;
+ case 2:
+ if((mutex==1)&&(full!=0))
+ consumer();
+ else
+ printf("buffer is empty");
+ break;
+ case 3:
+ exit(0);
+ break;
+ }
+}while(n!=3);
+return 0;
+}
+int wait(int s)
+{
+return(--s);
+}
+int signal(int s)
+{
+return(++s);
+}
+void producer()
+{
+mutex=wait(mutex);
+full=signal(full);
+empty=wait(empty);
+x++;
+printf("\nproducer produces the items%d",x);
+mutex=signal(mutex);
+}
+void consumer()
+{
+mutex=wait(mutex);
+full=wait(full);
+empty=signal(empty);
+printf("\nconsumerconsumes the item %d",x);
+x--;
+mutex=signal(mutex);
+}
+
+
