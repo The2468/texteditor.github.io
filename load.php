@@ -1,11 +1,38 @@
-Expt. 2. Write a C program to display PID and PPID using system
-calls getpid () & getppid ()
+1. Write a C program to create a new process that exec a new program using system calls fork(), execlp() & wait()
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+void main(intargc,char *arg[])
+{
+int pid;
+ pid=fork();
+if(pid<0)
+{
+printf("fork failed");
+exit(1);
+}
+else if(pid==0)
+{
+execlp("date","ls",NULL );
+exit(0);
+}
+else
+{
+printf("\n Process id is -%d\n",getpid());
+wait(NULL);
+exit(0);
+}
+}
+
+
+Expt. 2. Write a C program to display PID and PPID using system calls getpid () & getppid ()
+ 
 Program Description:
 Using fork(), create a child process. The child process prints its own process id and id of the
 parent and exits. The parent process waits for the child to finish and prints its own process id and
 the id of the child process and exits.
+ 
 SYSTEM CALLS USED:
-
 getpid( ): returns the process id of the current process
 Syntax():
 #include<unistd.h>
@@ -17,7 +44,6 @@ Syntax():
 pid_t getppid();
 
 Program Code:
-
 #include <stdio.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -45,8 +71,8 @@ Expt. 3. Write a C program using I/O system calls open(), read() & write() to co
 
 Program Description: Assume that one.txt is well defined. What we want is to create a new file
 called two.txt and copy over all the contents of one.txt.
+ 
 SYSTEM CALLS USED:
-
 open(): allows you to open or create file for reading and/or writing
 Syntax:
 #include <fcntl.h>
@@ -350,6 +376,8 @@ for(i=0;i<k;i++)
 printf(" P[%d] ",output[i]);
 printf(">");
 }
+
+ 
 EXP 10 FIFO page replacement
 #include<stdio.h>
 int main()
