@@ -1,34 +1,22 @@
-exp1
+Expt. 2. Write a C program to display PID and PPID using system
+calls getpid () & getppid ()
+Program Description:
+Using fork(), create a child process. The child process prints its own process id and id of the
+parent and exits. The parent process waits for the child to finish and prints its own process id and
+the id of the child process and exits.
+SYSTEM CALLS USED:
 
-#include<stdio.h>
-#include<stdlib.h>
+getpid( ): returns the process id of the current process
+Syntax():
 #include<unistd.h>
-void main(int argc,char *args[])
-{
-int pid;
- pid=fork();
-if(pid<0)
-{
-printf("fork failed");
-exit(1);
-}
-else if(pid==0)
-{
-execlp("date","ls",NULL );
-exit(0);
-}
-else
-{
-printf("\n Process id is -%d\n",getpid());
-wait(NULL);
-exit(0);
-}
-}
+pid_t getpid();
 
+getppid( ): returns the process id of the parent of the current process
+Syntax():
+#include<unistd.h>
+pid_t getppid();
 
-
-
-exp2
+Program Code:
 
 #include <stdio.h>
 #include <sys/types.h>
@@ -53,8 +41,40 @@ printf("\nChild PID : %d",pid);
 }
 }
 
-exp3
+Expt. 3. Write a C program using I/O system calls open(), read() & write() to copy contents of one file to another file
 
+Program Description: Assume that one.txt is well defined. What we want is to create a new file
+called two.txt and copy over all the contents of one.txt.
+SYSTEM CALLS USED:
+
+open(): allows you to open or create file for reading and/or writing
+Syntax:
+#include <fcntl.h>
+int open (const char* Path, int flags [, int mode ]);
+Returns: file descriptor if OK, -1 on error
+The pathname is the name of the file to open or create.
+Then a flag in the second parameter determine the method in which the file is to be
+opened: O_RDONLY, O_WRONLY or O_RDWR.
+The third argument determine the permissions of the file if it is created: S_IRUSR (Set read rights
+for the owner to true), S_IWUSR (Set write rights for the owner to true)
+read(): used to read data into a buffer.
+syntax:
+#include <unistd.h>
+size_t read (int fd, void* buf, size_t cnt);
+Returns the number of bytes that were read.
+fd: The file descriptor of where to read the input
+buf: A character array where the read content will be stored.
+cnt: The number of bytes to read
+write(): used to write data out of a buffer.
+Syntax:
+#include <unistd.h>
+size_t write (int fd, void* buf, size_t cnt);
+Returns: the number of bytes that were written
+fd: The file descriptor of where to write the output.
+Buf: A pointer to a buffer which will be written to the file.
+cnt: The number of bytes to write.
+
+Program code:
 #include<stdio.h>
 #include<unistd.h>
 #include<sys/types.h>
@@ -73,9 +93,29 @@ close(fd);
 close(fd1);
 }
 
+4. Write a C program to implement multithreaded program using pthreads
 
-exp4
+Program Description:
+Program creates 5 threads with the pthread_create() routine. Each thread prints a Hello World
+message and then terminates with a call to pthread_exit().
+System Calls Used:
+pthread_create(): creates a new thread and makes it executable. This routine can be called any
+number of times from anywhere within your code.
+Syntax:
+pthread_create (thread, attr, start_routine, arg)
+pthread_create arguments:
+● thread: unique identifier for the new thread returned by the subroutine.
+● attr: attribute object that may be used to set thread attributes. You can specify a thread
+attributes object, or NULL for the default values.
+● start_routine: the C routine that the thread will execute once it is created.
+● arg: A single argument that may be passed to start_routine. It must be passed by reference
+as a pointer cast of type void. NULL may be used if no argument is to be passed.
 
+pthread_exit(): terminate the calling thread
+Syntax():
+pthread_exit(status)
+
+Program Code:
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -94,7 +134,7 @@ int main(int argc, char *argv[])
  long t;
  for(t=0;t<NUM_THREADS;t++){
  printf("In main: creating thread %ld\n", t);
- rc = pthread_create(&threads[t], NULL, PrintHello, (void *)t);
+rc = pthread_create(&threads[t], NULL, PrintHello, (void *)t);
  if (rc){
  printf("ERROR; return code from pthread_create() is %d\n", rc);
  exit(-1);
@@ -102,170 +142,9 @@ int main(int argc, char *argv[])
  }
  /* Last thing that main() should do */
  pthread_exit(NULL);
-return 0:
 }
 
-
-exp5
-FCFS
-
-#include<stdio.h>
-int main()
-{
- int n,bt[20],wt[20],tat[20],avwt=0,avtat=0,i,j;
- printf("Enter total number of processes(maximum 20):");
- scanf("%d",&n);
- printf("\nEnter Process Burst Time\n");
- for(i=0;i<n;i++)
- {
- printf("P[%d]:",i+1);
- scanf("%d",&bt[i]);
- }
- wt[0]=0; //waiting time for first process is 0
- //calculating waiting time
- for(i=1;i<n;i++)
- {
- wt[i]=0;
- for(j=0;j<i;j++)
- wt[i]= wt[i]+bt[j];
- }
- printf("\nProcess\t\tBurst Time\tWaiting Time\tTurnaround Time");
- //calculating turnaround time
- for(i=0;i<n;i++)
- {
- tat[i]=bt[i]+wt[i];
- avwt+=wt[i];
- avtat+=tat[i];
- printf("\nP[%d]\t\t%d\t\t%d\t\t%d",i+1,bt[i],wt[i],tat[i]);
- }
- avwt/=n;
- avtat/=n;
- printf("\n\nAverage Waiting Time:%d",avwt);
- printf("\nAverage Turnaround Time:%d",avtat);
- return 0;
-}
-
-
-
-SJF
-
-
-#include<stdio.h>
-void main()
-{
- int bt[20],p[20],wt[20],tat[20],i,j,n,total=0, total1=0,pos,temp;
- float avg_wt,avg_tat;
- printf("Enter number of process:");
- scanf("%d",&n);
- printf("\nEnter Burst Time:\n");
- for(i=0;i<n;i++)
- {
- printf("p%d:",i+1);
- scanf("%d",&bt[i]);
- p[i]=i+1; //contains process number
- }
- //sorting burst time in ascending order using selection sort
- for(i=0;i<n;i++)
- {
- pos=i;
- for(j=i+1;j<n;j++)
- {
- if(bt[j]<bt[pos])
- pos=j;
- }
- temp=bt[i];
- bt[i]=bt[pos];
- bt[pos]=temp;
- temp=p[i];
- p[i]=p[pos];
- p[pos]=temp;
- }
- wt[0]=0; //waiting time for first process will be zero
- //calculate waiting time
- for(i=1;i<n;i++)
- {
- wt[i]=0;
- for(j=0;j<i;j++)
- wt[i]+=bt[j];
- total+=wt[i];
- }
-
- printf("\nProcess\t Burst Time \tWaiting Time\tTurnaround Time");
- for(i=0;i<n;i++)
- {
- tat[i]=bt[i]+wt[i]; //calculate turnaround time
- total+=tat[i];
- printf("\np%d\t\t %d\t\t %d\t\t\t%d",p[i],bt[i],wt[i],tat[i]);
- }
-avg_wt=(float)total/n; //average waiting time
- avg_tat=(float)total1/n; //average turnaround time
- printf("\n\nAverage Waiting Time=%f",avg_wt);
- printf("\nAverage Turnaround Time=%f\n",avg_tat);
-}
-
-
-priority 
-
-#include<stdio.h>
-int main()
-{
- int bt[20],p[20],wt[20],tat[20],pr[20],i,j,n,total=0, total1=0,pos,temp,avg_wt,avg_tat;
- printf("Enter Total Number of Process:");
- scanf("%d",&n);
- printf("\nEnter Burst Time and Priority\n");
- for(i=0;i<n;i++)
- {
- printf("\nP[%d]\n",i+1);
- printf("Burst Time:");
- scanf("%d",&bt[i]);
- printf("Priority:");
- scanf("%d",&pr[i]);
- p[i]=i+1; //contains process number
- }
- //sorting burst time, priority and process number in ascending order using selection sort
- for(i=0;i<n;i++)
- {
- pos=i;
- for(j=i+1;j<n;j++)
- {
- if(pr[j]<pr[pos])
- pos=j;
- }
- temp=pr[i];
- pr[i]=pr[pos];
- pr[pos]=temp;
- temp=bt[i];
- bt[i]=bt[pos];
- bt[pos]=temp;
- temp=p[i];
- p[i]=p[pos];
- p[pos]=temp;
- }
- wt[0]=0; //waiting time for first process is zero
- //calculate waiting time
- for(i=1;i<n;i++)
- {
- wt[i]=0;
- for(j=0;j<i;j++)
- wt[i]+=bt[j];
- total+=wt[i];
- }
-
- printf("\nProcess\t Burst Time \tWaiting Time\tTurnaround Time");
- for(i=0;i<n;i++)
- {
- tat[i]=bt[i]+wt[i]; //calculate turnaround time
- total1+=tat[i];
- printf("\nP[%d]\t\t %d\t\t %d\t\t\t%d",p[i],bt[i],wt[i],tat[i]);
- }
- avg_wt=total/n; //average waiting time
- avg_tat=total1/n; //average turnaround time
- printf("\n\nAverage Waiting Time=%d",avg_wt);
- printf("\nAverage Turnaround Time=%d\n",avg_tat);
- return 0;
-}
-
-roundrobin
+EXP 5. Round Robin
 
 #include<stdio.h>
 int main()
@@ -330,8 +209,7 @@ printf("\nAverage Turn Around Time:%.2f\n",att);
 return 0;
 }
 
-
-semaphore
+EXP 6. Semaphore
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -396,4 +274,144 @@ x--;
 mutex=signal(mutex);
 }
 
+Expt 7. Bankers Algorithm
 
+#include<stdio.h>
+void main()
+{
+int
+k=0,output[10],d=0,t=0,ins[5],i,avail[5],allocated[10][5],need[10][5],
+MAX[10][5],pno,P[10],j,rz, count=0;
+printf("\n Enter the number of resources : ");
+scanf("%d", &rz);
+printf("\n enter the max instances of each resources\n");
+for(i=0;i<rz;i++)
+{
+avail[i]=0;
+printf("%c= ",(i+97));
+scanf("%d",&ins[i]);
+}
+printf("\n Enter the number of processes : ");
+scanf("%d", &pno);
+printf("\n Enter the allocation matrix \n ");
+for(i=0;i<rz;i++)
+printf(" %c",(i+97));
+printf("\n");
+for(i=0;i <pno;i++)
+{
+ P[i]=i;
+ printf("P[%d] ",P[i]);
+ for(j=0;j<rz;j++)
+ {
+ scanf("%d",&allocated[i][j]);
+ avail[j]+=allocated[i][j];
+ }
+}
+printf("\nEnter the MAX matrix \n ");
+for(i=0;i<rz;i++)
+{
+ printf(" %c",(i+97));
+ avail[i]=ins[i]-avail[i];
+}
+printf("\n");
+for(i=0;i <pno;i++)
+{
+printf("P[%d] ",i);
+for(j=0;j<rz;j++)
+ scanf("%d", &MAX[i][j]);
+}
+printf("\n");
+A: d=-1;
+for(i=0;i <pno;i++)
+{
+ count=0; t=P[i];
+ for(j=0;j<rz;j++)
+ {
+ need[t][j] = MAX[t][j]-allocated[t][j];
+ if(need[t][j]<=avail[j])
+ count++;
+ }
+if(count==rz)
+{
+ output[k++]=P[i];
+ for(j=0;j<rz;j++)
+ avail[j]+=allocated[t][j];
+}
+else
+P[++d]=P[i];
+}
+if(d!=-1)
+{
+pno=d+1;
+goto A;
+}
+printf("\t <");
+for(i=0;i<k;i++)
+printf(" P[%d] ",output[i]);
+printf(">");
+}
+Exp. 8 Deadlock Detection
+#include<stdio.h>
+int main()
+{
+ int alloc[10][10], request[10][10], avail[10], work[10], n, m, i, j,k, true=1, false=0, finish[n];
+ printf("Enter number of processes: \n");
+ scanf("%d",&n);
+ printf("Enter number of resources: \n");
+ scanf("%d",&m);
+ printf("Enter allocation: \n");
+ for(i=0; i<n; i++)
+ {
+ for(j=0; j<m; j++)
+ {
+ scanf("%d", &alloc[i][j]);
+ }
+ }
+ printf("Enter request: \n");
+ for(i=0; i<n; i++)
+ {
+ for(j=0; j<m; j++)
+ {
+ scanf("%d", &request[i][j]);
+ }
+ }
+ printf("Enter available: \n");
+ for(i=0; i<m; i++)
+ {
+ scanf("%d", &avail[i]);
+ }
+ for(i=0; i<n; i++)
+ {
+ finish[i]=false;
+ }
+ for(i=0; i<m; i++)
+ {
+ work[i]=avail[i];
+ }
+for(j=0; j<n; j++)
+ {
+ for(i=0; i<n; i++)
+ {
+ k=0;
+ if(finish[i]==false && request[i][k]<=work[k] && request[i][k+1]<=work[k+1] &&
+request[i][k+2]<=work[k+2])
+ {
+ work[k]+=alloc[i][k];
+ work[k+1]+=alloc[i][k+1];
+ work[k+2]+=alloc[i][k+2];
+ finish[i]=true;
+ }
+ }
+ }
+ for(i=0; i<n; i++)
+ {
+ if(finish[i]==false)
+ {
+ printf("Deadlock detected! \n");
+ }
+ else
+ {
+ printf("No deadlock! \n");
+ }
+ }
+}
