@@ -19,7 +19,7 @@ pid_t getppid();
 Program Code:
 
 #include <stdio.h>
-#include <sys/types.h>
+#include <sys/wait.h>
 #include <unistd.h>
 void main()
 {
@@ -224,7 +224,7 @@ int n;
 do
 {
  printf("\n1.producer\n2.consumer\n3.exit\n");
- printf("\nenter ur choice");
+ printf("\nenter ur choice: ");
  scanf("%d",&n);
  switch(n)
  {
@@ -350,68 +350,44 @@ for(i=0;i<k;i++)
 printf(" P[%d] ",output[i]);
 printf(">");
 }
-Exp. 8 Deadlock Detection
+EXP 10 FIFO page replacement
 #include<stdio.h>
 int main()
 {
- int alloc[10][10], request[10][10], avail[10], work[10], n, m, i, j,k, true=1, false=0, finish[n];
- printf("Enter number of processes: \n");
- scanf("%d",&n);
- printf("Enter number of resources: \n");
- scanf("%d",&m);
- printf("Enter allocation: \n");
- for(i=0; i<n; i++)
- {
- for(j=0; j<m; j++)
- {
- scanf("%d", &alloc[i][j]);
- }
- }
- printf("Enter request: \n");
- for(i=0; i<n; i++)
- {
- for(j=0; j<m; j++)
- {
- scanf("%d", &request[i][j]);
- }
- }
- printf("Enter available: \n");
- for(i=0; i<m; i++)
- {
- scanf("%d", &avail[i]);
- }
- for(i=0; i<n; i++)
- {
- finish[i]=false;
- }
- for(i=0; i<m; i++)
- {
- work[i]=avail[i];
- }
-for(j=0; j<n; j++)
- {
- for(i=0; i<n; i++)
- {
- k=0;
- if(finish[i]==false && request[i][k]<=work[k] && request[i][k+1]<=work[k+1] &&
-request[i][k+2]<=work[k+2])
- {
- work[k]+=alloc[i][k];
- work[k+1]+=alloc[i][k+1];
- work[k+2]+=alloc[i][k+2];
- finish[i]=true;
- }
- }
- }
- for(i=0; i<n; i++)
- {
- if(finish[i]==false)
- {
- printf("Deadlock detected! \n");
- }
- else
- {
- printf("No deadlock! \n");
- }
- }
+int i,j,n,a[50],frame[10],no,k,avail,count=0;
+printf("\n ENTER THE NUMBER OF PAGES:\n");
+scanf("%d",&n);
+ printf("\n ENTER THE PAGE NUMBER :\n");
+ for(i=1;i<=n;i++)
+ scanf("%d",&a[i]);
+
+printf("\n ENTER THE NUMBER OF FRAMES :");
+scanf("%d",&no);
+for(i=0;i<no;i++)
+{
+ frame[i]= -1;
 }
+j=0;
+ printf("\tpage number\t page frames\n");
+for(i=1;i<=n;i++)
+ {
+ printf("%d\t\t",a[i]);
+ avail=0;
+ for(k=0;k<no;k++)
+ {
+ if(frame[k]==a[i])
+ avail=1;
+ }
+ if (avail==0)
+ {
+ frame[j]=a[i];
+ j=(j+1)%no;
+ count++;
+for(k=0;k<no;k++)
+printf("%d\t",frame[k]);
+ }
+ printf("\n");
+ }
+ printf("Page Fault Is %d",count);
+ return 0;
+ }
