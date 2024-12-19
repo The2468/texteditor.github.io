@@ -1,421 +1,315 @@
-1. Write a C program to create a new process that exec a new program using system calls fork(), execlp() & wait()
-#include<stdio.h>
-#include<stdlib.h>
-#include<unistd.h>
-void main(intargc,char *arg[])
-{
-int pid;
- pid=fork();
-if(pid<0)
-{
-printf("fork failed");
-exit(1);
-}
-else if(pid==0)
-{
-execlp("date","ls",NULL );
-exit(0);
-}
-else
-{
-printf("\n Process id is -%d\n",getpid());
-wait(NULL);
-exit(0);
-}
-}
+exp1.
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
 
+data=pd.read_csv(r"C:\Users\DSU-CSE513-25\Downloads\Housing.csv")
 
-Expt. 2. Write a C program to display PID and PPID using system calls getpid () & getppid ()
- 
-Program Description:
-Using fork(), create a child process. The child process prints its own process id and id of the
-parent and exits. The parent process waits for the child to finish and prints its own process id and
-the id of the child process and exits.
- 
-SYSTEM CALLS USED:
-getpid( ): returns the process id of the current process
-Syntax():
-#include<unistd.h>
-pid_t getpid();
+data
 
-getppid( ): returns the process id of the parent of the current process
-Syntax():
-#include<unistd.h>
-pid_t getppid();
+print("\n sample data")
+print(data.head(15))
 
-Program Code:
-#include <stdio.h>
-#include <sys/wait.h>
-#include <unistd.h>
-void main()
-{
-int pid;
-pid=fork();
-if(!pid)
-{
-printf("Child process...");
-printf("\n\nChild PID : %d",getpid());
-printf("\nParent PID : %d",getppid());
-printf("\n\nFinished with child\n");
-}
- else
-{
-wait(NULL);
-printf("\nParent process");
-printf("\nPARENT PID : %d",getpid());
-printf("\nChild PID : %d",pid);
-}
-}
+print("\n sample data")
+print(data.tail(15))
 
-Expt. 3. Write a C program using I/O system calls open(), read() & write() to copy contents of one file to another file
+print('The count is:')
+print(data.count)
 
-Program Description: Assume that one.txt is well defined. What we want is to create a new file
-called two.txt and copy over all the contents of one.txt.
- 
-SYSTEM CALLS USED:
-open(): allows you to open or create file for reading and/or writing
-Syntax:
-#include <fcntl.h>
-int open (const char* Path, int flags [, int mode ]);
-Returns: file descriptor if OK, -1 on error
-The pathname is the name of the file to open or create.
-Then a flag in the second parameter determine the method in which the file is to be
-opened: O_RDONLY, O_WRONLY or O_RDWR.
-The third argument determine the permissions of the file if it is created: S_IRUSR (Set read rights
-for the owner to true), S_IWUSR (Set write rights for the owner to true)
-read(): used to read data into a buffer.
-syntax:
-#include <unistd.h>
-size_t read (int fd, void* buf, size_t cnt);
-Returns the number of bytes that were read.
-fd: The file descriptor of where to read the input
-buf: A character array where the read content will be stored.
-cnt: The number of bytes to read
-write(): used to write data out of a buffer.
-Syntax:
-#include <unistd.h>
-size_t write (int fd, void* buf, size_t cnt);
-Returns: the number of bytes that were written
-fd: The file descriptor of where to write the output.
-Buf: A pointer to a buffer which will be written to the file.
-cnt: The number of bytes to write.
+data.isnull()
 
-Program code:
-#include<stdio.h>
-#include<unistd.h>
-#include<sys/types.h>
-#include<string.h>
-#include <fcntl.h>
-void main()
-{
-char buff;
-int fd,fd1;
-fd=open("one.txt",O_RDONLY);
-fd1=open("two.txt",O_WRONLY|O_CREAT);
-while(read(fd,&buff,1))
-write(fd1,&buff,1);
-printf("The copy of a file is successed");
-close(fd);
-close(fd1);
-}
+data.isnull().sum()
 
-4. Write a C program to implement multithreaded program using pthreads
+print('The shape is:')
+print(data.shape)
 
-Program Description:
-Program creates 5 threads with the pthread_create() routine. Each thread prints a Hello World
-message and then terminates with a call to pthread_exit().
-System Calls Used:
-pthread_create(): creates a new thread and makes it executable. This routine can be called any
-number of times from anywhere within your code.
-Syntax:
-pthread_create (thread, attr, start_routine, arg)
-pthread_create arguments:
-● thread: unique identifier for the new thread returned by the subroutine.
-● attr: attribute object that may be used to set thread attributes. You can specify a thread
-attributes object, or NULL for the default values.
-● start_routine: the C routine that the thread will execute once it is created.
-● arg: A single argument that may be passed to start_routine. It must be passed by reference
-as a pointer cast of type void. NULL may be used if no argument is to be passed.
+print("Basic Information:")
+print(data.info())
 
-pthread_exit(): terminate the calling thread
-Syntax():
-pthread_exit(status)
+print(data.describe())
 
-Program Code:
-#include <pthread.h>
-#include <stdio.h>
-#include <stdlib.h>
-#define NUM_THREADS 5
-void *PrintHello(void *threadid)
-{
- long tid;
- tid = (long)threadid;
- printf("Hello World! It's me, thread #%ld!\n", tid);
- pthread_exit(NULL);
-}
-int main(int argc, char *argv[])
-{
- pthread_t threads[NUM_THREADS];
- int rc;
- long t;
- for(t=0;t<NUM_THREADS;t++){
- printf("In main: creating thread %ld\n", t);
-rc = pthread_create(&threads[t], NULL, PrintHello, (void *)t);
- if (rc){
- printf("ERROR; return code from pthread_create() is %d\n", rc);
- exit(-1);
- }
- }
- /* Last thing that main() should do */
- pthread_exit(NULL);
-}
+data.dtypes
 
-EXP 5. Round Robin
+data.columns
 
-#include<stdio.h>
-int main()
-{
-int i,tbt=0,nop,ts=0,flag[20],rem[20];
-int from,wt[20],tt[20],b[20],twt=0,ttt=0;
-int dur;
-float awt,att;
-printf("Enter no.of Processes:");
-scanf("%d",&nop);
-printf("Enter the time slice:");
-scanf("%d",&ts);
-printf("Enter the Burst times..\n");
-for(i=0;i<nop;i++)
-{
- wt[i]=tt[i]=0;
- printf("P%d\t:",i+1);
- scanf("%d",&b[i]); // Reading Burst Time
- rem[i]=b[i]; // Store the Burst Time in rem array
- tbt+=b[i]; // Total Burst Time
- flag[i]=0; // used to check whether the process has remaining burst time or not
-}
-from=0;
-i=0;
-printf("\n\tGantt Chart");
-printf("\nProcessID \t From Time\tTo Time\n");
-while(from<tbt)
-{
- if(!flag[i]) //true only when process has burst time
- {
- if(rem[i]<=ts) //burst time should be equal or less than time slice
- {
- dur=rem[i];
- flag[i]=1; // make the value false
- tt[i]=dur+from;
- wt[i]=tt[i]-b[i]; // subtract
- }
- else
- dur=ts;
- printf("%7d%15d%15d\n",i+1,from,from+dur);
- rem[i]= rem[i]-dur;
- from = from+dur;
-}
-i=(i+1)%nop;
-}
-for(i=0;i<nop;i++)
-{
-twt+=wt[i];
-ttt+=tt[i];
-}
-printf("\n\nProcess ID\tWaiting Time\tTurn Around Time");
-for(i=0;i<nop;i++)
-{
-printf("\n\t%d\t\t%d\t\t%d",i+1,wt[i],tt[i]);
-}
-awt=(float)twt/(float)nop;
-att=(float)ttt/(float)nop;
-printf("\nTotal Waiting Time:%d",twt);
-printf("\nTotal TurnAround Time:%d",ttt);
-printf("\nAverage Waiting Time:%.2f",awt);
-printf("\nAverage Turn Around Time:%.2f\n",att);
-return 0;
-}
+data.dropna(inplace=True)
 
-EXP 6. Semaphore
+duplicate_rows_df=data[data.duplicated()]
+print("Number of duplicate rows:",duplicate_rows_df.shape)
 
-#include<stdio.h>
-#include<stdlib.h>
-int mutex=1,full=0,empty=3,x=0;
-void producer();
-void consumer();
-int wait(int);
-int signal(int);
-int main()
-{
-int n;
-do
-{
- printf("\n1.producer\n2.consumer\n3.exit\n");
- printf("\nenter ur choice: ");
- scanf("%d",&n);
- switch(n)
- {
- case 1:
- if((mutex==1)&&(empty!=0))
- producer();
- else
- printf("buffer is full\n");
- break;
- case 2:
- if((mutex==1)&&(full!=0))
- consumer();
- else
- printf("buffer is empty");
- break;
- case 3:
- exit(0);
- break;
- }
-}while(n!=3);
-return 0;
-}
-int wait(int s)
-{
-return(--s);
-}
-int signal(int s)
-{
-return(++s);
-}
-void producer()
-{
-mutex=wait(mutex);
-full=signal(full);
-empty=wait(empty);
-x++;
-printf("\nproducer produces the items%d",x);
-mutex=signal(mutex);
-}
-void consumer()
-{
-mutex=wait(mutex);
-full=wait(full);
-empty=signal(empty);
-printf("\nconsumerconsumes the item %d",x);
-x--;
-mutex=signal(mutex);
-}
+data=data.drop_duplicates()
 
-Expt 7. Bankers Algorithm
+data.count()
 
-#include<stdio.h>
-void main()
-{
-int
-k=0,output[10],d=0,t=0,ins[5],i,avail[5],allocated[10][5],need[10][5],
-MAX[10][5],pno,P[10],j,rz, count=0;
-printf("\n Enter the number of resources : ");
-scanf("%d", &rz);
-printf("\n enter the max instances of each resources\n");
-for(i=0;i<rz;i++)
-{
-avail[i]=0;
-printf("%c= ",(i+97));
-scanf("%d",&ins[i]);
-}
-printf("\n Enter the number of processes : ");
-scanf("%d", &pno);
-printf("\n Enter the allocation matrix \n ");
-for(i=0;i<rz;i++)
-printf(" %c",(i+97));
-printf("\n");
-for(i=0;i <pno;i++)
-{
- P[i]=i;
- printf("P[%d] ",P[i]);
- for(j=0;j<rz;j++)
- {
- scanf("%d",&allocated[i][j]);
- avail[j]+=allocated[i][j];
- }
-}
-printf("\nEnter the MAX matrix \n ");
-for(i=0;i<rz;i++)
-{
- printf(" %c",(i+97));
- avail[i]=ins[i]-avail[i];
-}
-printf("\n");
-for(i=0;i <pno;i++)
-{
-printf("P[%d] ",i);
-for(j=0;j<rz;j++)
- scanf("%d", &MAX[i][j]);
-}
-printf("\n");
-A: d=-1;
-for(i=0;i <pno;i++)
-{
- count=0; t=P[i];
- for(j=0;j<rz;j++)
- {
- need[t][j] = MAX[t][j]-allocated[t][j];
- if(need[t][j]<=avail[j])
- count++;
- }
-if(count==rz)
-{
- output[k++]=P[i];
- for(j=0;j<rz;j++)
- avail[j]+=allocated[t][j];
-}
-else
-P[++d]=P[i];
-}
-if(d!=-1)
-{
-pno=d+1;
-goto A;
-}
-printf("\t <");
-for(i=0;i<k;i++)
-printf(" P[%d] ",output[i]);
-printf(">");
-}
+feautures=data.columns
+feautures
 
- 
-EXP 10 FIFO page replacement
-#include<stdio.h>
-int main()
-{
-int i,j,n,a[50],frame[10],no,k,avail,count=0;
-printf("\n ENTER THE NUMBER OF PAGES:\n");
-scanf("%d",&n);
- printf("\n ENTER THE PAGE NUMBER :\n");
- for(i=1;i<=n;i++)
- scanf("%d",&a[i]);
+zero_val_cols=(data[feautures]==0).sum()
+zero_val_cols
 
-printf("\n ENTER THE NUMBER OF FRAMES :");
-scanf("%d",&no);
-for(i=0;i<no;i++)
-{
- frame[i]= -1;
-}
-j=0;
- printf("\tpage number\t page frames\n");
-for(i=1;i<=n;i++)
- {
- printf("%d\t\t",a[i]);
- avail=0;
- for(k=0;k<no;k++)
- {
- if(frame[k]==a[i])
- avail=1;
- }
- if (avail==0)
- {
- frame[j]=a[i];
- j=(j+1)%no;
- count++;
-for(k=0;k<no;k++)
-printf("%d\t",frame[k]);
- }
- printf("\n");
- }
- printf("Page Fault Is %d",count);
- return 0;
- }
+data.isnull().sum()/len(data)*100
+
+data[['price','area']]=data[['price','area']].replace(0,np.NaN)
+
+data['area']=data['area'].fillna(data.area.median())
+
+exp2.
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+
+data=pd.read_csv(r"C:\Users\DSU-CSE513-25\Downloads\Housing.csv")
+
+data
+
+#One-Hot encoding
+one_hot_encoded=pd.get_dummies(data,columns=['mainroad'],prefix=['mainroad'])
+print("One-Hot Encoded data:")
+print(one_hot_encoded)
+
+from sklearn.preprocessing import LabelEncoder
+label_encoder=LabelEncoder()
+data['Guestroom_LabelEncoded']=label_encoder.fit_transform(data['guestroom'])
+print("\nlabel Encoded data:")
+print(data)
+
+plt.figure(figsize=(8,6))
+sns.histplot(data['price'],bins=20,kde=True)
+plt.title('Distribution of House Prices')
+plt.xlabel("price ($)")
+plt.ylabel("Frequency")
+plt.grid(True)
+plt.show()
+
+plt.figure(figsize=(8,6))
+sns.boxplot(data=data,x='price')
+plt.title('Outliers in House Prices')
+plt.xlabel("price ($)")
+plt.grid(True)
+plt.show()
+
+#Remove the extreme outliers
+data=data[data['price']<9000000]
+
+def find_boundaries(variable):
+q1=data[variable].quantile(0.25)
+q3=data[variable].quantile(0.75)
+iqr=q3-q1
+lower_boundary=q1-1.5*iqr
+upper_boundary=q1+1.5*iqr
+return lower_boundary,upper_boundary
+lower_price,upper_price=find_boundaries('price')
+data.price=np.where(data.price>upper_price,upper_price,data.price)
+data.price=np.where(data.price<lower_price,lower_price,data.price)
+
+plt.figure(figsize=(8,6))
+sns.boxplot(data=data,x='price')
+plt.title('Outliers in House Prices')
+plt.xlabel("price ($)")
+plt.grid(True)
+plt.show()
+
+#calculate correlation matrix
+numeric_data=data.select_dtypes(include=[np.number])
+correlation_matrix=numeric_data.corr()
+print(correlation_matrix)
+
+plt.figure(figsize=(10,8))
+sns.heatmap(correlation_matrix,annot=True,cmap='coolwarm')
+plt.title("coorelation Matrix")
+plt.show()
+
+plt.figure(figsize=(10,6))
+sns.scatterplot(data=data, x='area', y='price')
+plt.title("House price vs Area")
+plt.xlabel("Area")
+plt.ylabel("Price ($)")
+plt.grid(True)
+plt.show()
+
+exp3a
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+
+salary_df =pd.read_csv(r"C:\Users\DSU-CSE513-25\Downloads\salary_data (1).csv")
+
+salary_df.shape
+
+salary_df.info()
+
+salary_df.head()
+
+salary_df.describe()
+
+plt.scatter(data=salary_df,x='YearsExperience',y='Salary')
+plt.title("Salary based on the years of experience")
+plt.xlabel("Years of experience")
+plt.ylabel("Salary")
+plt.show()
+
+x=salary_df.loc[:, 'YearsExperience'].values
+y=salary_df.loc[:, 'Salary'].values
+
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.3,random_state=0)
+
+x_train.shape,x_test.shape,y_train.shape,y_test.shape
+
+type(x_train)
+
+from sklearn.linear_model import LinearRegression
+
+reg_model = LinearRegression()
+
+reg_model.fit(x_train.reshape(-1,1),y_train.reshape(-1,1))
+
+reg_model.coef_
+
+reg_model.intercept_
+
+y_predicted=reg_model.predict(x_test.reshape(-1,1))
+
+y_predicted
+
+y_test
+
+from sklearn.metrics import mean_squared_error, r2_score
+
+r_square=r2_score(y_test,y_predicted)
+
+r_square
+
+from sklearn.metrics import mean_squared_error
+mse= mean_squared_error(y_test,y_predicted)
+rmse=np.sqrt(mse)
+
+rmse
+
+plt.scatter(x=x_test,y=y_test,color='red')
+plt.scatter(x=x_test,y=y_predicted,color='green')
+plt.title("Salary Test Vs Predicted")
+plt.xlabel("Years of Experience")
+plt.ylabel("Salary")
+plt.show()
+
+exp3b.
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+
+dataset =pd.read_csv(r"C:\Users\DSU-CSE513-25\Downloads\50_Startups.csv")
+
+dataset
+
+dataset.isna().sum()
+
+dataset.info()
+
+x=dataset.drop('Profit',axis=1)
+x
+
+y=dataset['Profit']
+y
+
+exp4
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+
+df=pd.read_csv(r"C:\Users\DSU-CSE513-25\Downloads\Heart.csv")
+
+df.info()
+
+df.head()
+
+df.isnull().sum()
+
+df.describe()
+
+df.columns
+
+df.drop('Unnamed: 0',axis=1,inplace=True)
+df.columns
+
+x=df.drop('target',axis=1)
+y=df['target']
+
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=42)
+
+from sklearn.linear_model import LogisticRegression
+log_clf = LogisticRegression()
+log_clf.fit(x_train,y_train)
+
+y_predicted=log_clf.predict(x_test)
+
+y_predicted[0:5]
+
+from sklearn import metrics
+conf_mat=metrics.confusion_matrix(y_test,y_predicted)
+conf_mat
+
+acc=metrics.accuracy_score(y_test,y_predicted)
+prec=metrics.precision_score(y_test,y_predicted)
+recall=metrics.recall_score(y_test,y_predicted)
+print(f'Accuracy={acc} \nPrecision = {prec}\nRecall={recall}')
+
+plt.title('Confusion Matrix')
+sns.heatmap(pd.DataFrame(conf_mat),annot=True,cmap='YlGnBu')
+plt.show()
+
+exp5.
+import pandas as pd
+import seaborn as sns
+
+import warnings
+warnings.filterwarnings('ignore')
+
+df=sns.load_dataset('iris')
+
+df.head()
+
+df.size
+
+df.shape
+
+df.species.value_counts()
+
+df.info()
+
+df.describe()
+
+sns.pairplot(data = df,hue='species')
+
+sns.heatmap(df.drop('species',axis=1).corr())
+
+from sklearn.preprocessing import LabelEncoder
+le=LabelEncoder()
+y=le.fit_transform(df['species'])
+
+y[0:5]
+
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=42)
+
+from sklearn.tree import DecisionTreeClassifier
+dtree=DecisionTreeClassifier()
+dtree.fit(x_train,y_train)
+y_predicted=dtree.predict(x_test)
+
+from sklearn.metrics import classification_report,confusion_matrix
+print(confusion_matrix(y_test,y_predicted))
+
+print(classification_report(y_test,y_predicted))
+
+sns.heatmap(pd.DataFrame(confusion_matrix(y_test,y_predicted)),annot=True,cmap='YlGnBu')
+
+from sklearn.tree import plot_tree
+plot =plot_tree(decision_tree=dtree,feature_names=df.columns,class_names=["setosa","versicolor","verginica"],filled
